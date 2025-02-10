@@ -11,12 +11,15 @@
   </div>
 
   <div id="websites" class="min-w-full">
+    <h1>Loged Inn as, <%= current_user.email %></h1>
     <% if @websites.any? %>
       <% @websites.each do |website| %>
-        <%= render website %>
-        <p>
-          <%= link_to "Show this website", website, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-        </p>
+        <% if website.user == current_user %>
+          <%= render website %>
+          <p>
+            <%= link_to "Show this website", website, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+          </p>
+        <% end %>
       <% end %>
     <% else %>
       <p class="text-center my-10">No websites found.</p>
