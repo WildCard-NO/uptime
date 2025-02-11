@@ -68,3 +68,4 @@ end
 
 gem 'devise', '~> 4.9.2'
 gem 'sidekiq'
+gem 'httparty'
