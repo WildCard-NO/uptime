@@ -1,6 +1,7 @@
 class WebsitesController < ApplicationController
-  before_action :set_website, only: %i[ show edit update destroy ]
-
+  before_action :set_website, only: %i[show edit update destroy]
+  before_action :authenticate_user!
+  
   # GET /websites or /websites.json
   def index
     @websites = Website.all
@@ -21,10 +22,11 @@ class WebsitesController < ApplicationController
 
   # POST /websites or /websites.json
   def create
-    @website = Website.new(website_params)
+    @website = current_user.websites.new(website_params)
 
     respond_to do |format|
       if @website.save
+        start_pinging(@website)  # Start pinging in the background after creation
         format.html { redirect_to @website, notice: "Website was successfully created." }
         format.json { render :show, status: :created, location: @website }
       else
@@ -47,9 +49,8 @@ class WebsitesController < ApplicationController
     end
   end
 
-  # DELETE /websites/1 or /websites/1.json
   def destroy
-    @website.destroy!
+    @website.destroy
 
     respond_to do |format|
       format.html { redirect_to websites_path, status: :see_other, notice: "Website was successfully destroyed." }
@@ -58,13 +59,19 @@ class WebsitesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_website
-      @website = Website.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def website_params
-      params.require(:website).permit(:title, :body)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_website
+    @website = Website.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def website_params
+    params.require(:website).permit(:title, :body, :time)
+  end
+
+  # Start the pinging process in the background
+  def start_pinging(website)
+    PingUrlJob.perform_later(website.id)  # Pass the time to the worker
+  end
 end
