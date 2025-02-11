@@ -2,20 +2,18 @@ class PingUrlJob < ApplicationJob
   queue_as :default
 
   def perform(website_id)
-    website = Website.find(website_id)
-    url = website.body
+    website = Website.find_by(id: website_id)
+    return unless website # Stop if the website is deleted
 
+    # Ping the website (fetch latest URL from the database)
     begin
-      response = Net::HTTP.get_response(URI.parse(url))
-
-      # You can log the response or handle success/failure here
-      if response.is_a?(Net::HTTPSuccess)
-        Rails.logger.info "Successfully pinged #{url}!"
-      else
-        Rails.logger.error "Failed to ping #{url}: #{response.code}"
-      end
-    rescue StandardError => e
-      Rails.logger.error "Error pinging #{url}: #{e.message}"
+      response = HTTParty.get(website.body)
+      website.update(status: response.success? ? 'online' : 'offline')
+    rescue StandardError
+      website.update(status: 'offline') # Mark as offline if the ping fails
     end
+
+    # Re-schedule the job
+    self.class.set(wait: website.time.seconds).perform_later(website.id) if website.time.present?
   end
 end

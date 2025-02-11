@@ -7,8 +7,14 @@
     <strong class="block font-medium mb-1">Body:</strong>
     <%= website.body %>
   </p>
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Status:</strong>
-    <p>Status: <%= website.status || "Pending" %></p>
-  </p>
+  <div class="website-item">
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Status:</strong>
+      <% if website.status == 'online' %>
+        <span class="text-green-500">Online</span>
+      <% else %>
+        <span class="text-red-500">Offline</span>
+      <% end %>
+    </p>
+  </div>
 </div>

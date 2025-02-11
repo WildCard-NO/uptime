@@ -40,6 +40,11 @@ class WebsitesController < ApplicationController
   def update
     respond_to do |format|
       if @website.update(website_params)
+        # Restart pinging if the URL or time changes
+        if @website.saved_change_to_body? || @website.saved_change_to_time?
+          PingUrlJob.perform_later(@website.id)
+        end
+  
         format.html { redirect_to @website, notice: "Website was successfully updated." }
         format.json { render :show, status: :ok, location: @website }
       else
@@ -72,6 +77,6 @@ class WebsitesController < ApplicationController
 
   # Start the pinging process in the background
   def start_pinging(website)
-    PingUrlJob.perform_later(website.id)  # Pass the time to the worker
+    PingUrlJob.perform_later(website.id) if website.time.present?
   end
 end
