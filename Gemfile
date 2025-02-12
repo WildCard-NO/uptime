@@ -69,3 +69,5 @@ end
 gem 'devise', '~> 4.9.2'
 gem 'sidekiq'
 gem 'httparty'
+
+gem "css-zero", "~> 1.0"
