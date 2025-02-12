@@ -9,17 +9,15 @@
     <h1 class="font-bold text-4xl">Websites</h1>
     <%= link_to "New website", new_website_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
-
+  <%= turbo_stream_from :websites %>
   <div id="websites" class="min-w-full">
     <h1>Loged Inn as, <%= current_user.email %></h1>
     <% if @websites.any? %>
       <% @websites.each do |website| %>
-        <% if website.user == current_user %>
-          <%= render website %>
-          <p>
-            <%= link_to "Show this website", website, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-          </p>
-        <% end %>
+        <%= render website %>
+        <p>
+          <%= link_to "Show this website", website, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+        </p>
       <% end %>
     <% else %>
       <p class="text-center my-10">No websites found.</p>

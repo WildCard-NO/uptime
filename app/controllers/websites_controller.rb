@@ -5,6 +5,7 @@ class WebsitesController < ApplicationController
   # GET /websites or /websites.json
   def index
     @websites = Website.all
+    @websites = current_user.websites
   end
 
   # GET /websites/1 or /websites/1.json
@@ -40,7 +41,6 @@ class WebsitesController < ApplicationController
   def update
     respond_to do |format|
       if @website.update(website_params)
-        # Restart pinging if the URL or time changes
         if @website.saved_change_to_body? || @website.saved_change_to_time?
           PingUrlJob.perform_later(@website.id)
         end
