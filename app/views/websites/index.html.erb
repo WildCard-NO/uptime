@@ -16,7 +16,7 @@
       <% @websites.each do |website| %>
         <%= render website %>
         <p>
-          <%= link_to "Show this website", website, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+          <%= link_to "Show this website", website, class: "btn btn--primary" %>
         </p>
       <% end %>
     <% else %>
