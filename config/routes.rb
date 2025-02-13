@@ -1,7 +1,9 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :websites
+  resources :websites do
+    patch :update_status
+  end
   devise_for :users
   root 'pages#index'
   get 'pages/index'

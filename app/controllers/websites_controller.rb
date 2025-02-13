@@ -10,6 +10,8 @@ class WebsitesController < ApplicationController
 
   # GET /websites/1 or /websites/1.json
   def show
+    @website = Website.find(params[:id])
+    @status_pings = StatusPing.where(website_id: @website.id).order(created_at: :desc).limit(25).reverse
   end
 
   # GET /websites/new
@@ -78,5 +80,7 @@ class WebsitesController < ApplicationController
   # Start the pinging process in the background
   def start_pinging(website)
     PingUrlJob.perform_later(website.id) if website.time.present?
+    StatusPing.create(website: website, status_number: 1) if website.time.present?
+
   end
 end

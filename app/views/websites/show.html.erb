@@ -6,7 +6,7 @@
   <% end %>
 
   <h1 class="font-bold text-4xl">Showing website</h1>
-
+  <%= turbo_stream_from :websites %>
   <%= render @website %>
 
   <%= link_to "Edit this website", edit_website_path(@website), class: "mt-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
@@ -14,4 +14,22 @@
   <div class="inline-block ml-2">
     <%= button_to "Destroy this website", @website, method: :delete, class: "mt-2 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
   </div>
+</div>
+
+<% website_data = [@website.status_number] %>
+
+<% @website_chart = {
+  labels: @status_pings.map { |ping| ping.created_at.strftime("%Y-%m-%d %H:%M:%S") },
+  datasets: [
+    { 
+      label: "Current Status", 
+      borderColor: "#93c5fd", 
+      backgroundColor: "#93c5fd", 
+      data: @status_pings.map(&:status_number) 
+    }
+  ]
+} %>
+
+<div class="relative i-full" style="block-size: 400px;">
+  <%= tag.canvas aria: { label: "Website Status Chart" }, role: "img", data: { controller: "chart", chart_type_value: "line", chart_data_value: @website_chart.to_json } %>
 </div>

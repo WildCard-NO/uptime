@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_10_183129) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_12_155226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "status_pings", force: :cascade do |t|
+    t.integer "status_number"
+    t.bigint "website_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["website_id"], name: "index_status_pings_on_website_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -32,7 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_10_183129) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.string "status"
+    t.integer "status"
     t.integer "time"
     t.index ["user_id"], name: "index_websites_on_user_id"
   end
