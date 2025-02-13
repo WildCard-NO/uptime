@@ -1,0 +1,19 @@
+<turbo-frame id="<%= "status_pings" %>">
+  <div>
+    <% website_chart = {
+      labels: status_pings.map { |ping| ping.created_at.strftime("%Y-%m-%d %H:%M:%S") },
+      datasets: [
+        { 
+          label: "Current Status", 
+          borderColor: "#93c5fd", 
+          backgroundColor: "#93c5fd", 
+          data: status_pings.map(&:status_number) 
+        }
+      ]
+    } %>
+
+    <div>
+      <%= tag.canvas aria: { label: "Website Status Chart" }, role: "img", data: { controller: "chart", chart_type_value: "line", chart_data_value: website_chart.to_json } %>
+    </div>
+  </div>
+</turbo-frame>

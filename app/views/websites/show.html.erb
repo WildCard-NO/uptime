@@ -6,7 +6,7 @@
   <% end %>
 
   <h1 class="font-bold text-4xl">Showing website</h1>
-
+  <%= turbo_stream_from :websites %>
   <%= render @website %>
 
   <%= link_to "Edit this website", edit_website_path(@website), class: "mt-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
@@ -14,4 +14,7 @@
   <div class="inline-block ml-2">
     <%= button_to "Destroy this website", @website, method: :delete, class: "mt-2 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
   </div>
+  <%= turbo_stream_from "status_pings_#{@website.id}" %>
+  <%= render "status_pings/status_pings", { status_pings: @status_pings  }  %>
 </div>
+

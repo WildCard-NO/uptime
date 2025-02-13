@@ -8,10 +8,17 @@ class PingUrlJob < ApplicationJob
     # Ping the website (fetch latest URL from the database)
     begin
       response = HTTParty.get(website.body)
-      website.update(status: response.success? ? 'online' : 'offline')
+      website_status = response.success? ? 'online' : 'offline'
     rescue StandardError
-      website.update(status: 'offline') # Mark as offline if the ping fails
+      website_status = 'offline' # Mark as offline if the ping fails
     end
+
+    # Update the website status
+    website.update(status: website_status)
+
+    # Create a StatusPing entry for tracking the status number
+    status_number = website_status == 'online' ? 1 : 0
+    StatusPing.create(website: website, status_number: status_number)
 
     # Re-schedule the job
     self.class.set(wait: website.time.seconds).perform_later(website.id) if website.time.present?
