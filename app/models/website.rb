@@ -7,7 +7,7 @@ class Website < ApplicationRecord
   after_update_commit -> { broadcast_replace_to :websites }
 
   enum status: { offline: 0, online: 1 }
-
+  before_save :strip_trailing_spaces
   def status_with_number
     "#{status} (#{status_number})"
   end
@@ -18,5 +18,12 @@ class Website < ApplicationRecord
 
   def status_array
     
+  end
+
+  private
+
+  def strip_trailing_spaces
+    self.body = self.body.strip
+    self.title = self.title.strip
   end
 end
