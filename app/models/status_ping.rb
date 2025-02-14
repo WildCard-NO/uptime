@@ -8,12 +8,11 @@ class StatusPing < ApplicationRecord
   private
 
   def send_status_change_email
-    if self.website.status_pings.where.not(id: self.id).order(created_at: :desc).first.status_number!= self.status_number
+    last_status_ping = self.website.status_pings.where.not(id: self.id).order(created_at: :desc).first
+    if last_status_ping && last_status_ping.status_number != self.status_number
       new_status = status_number == 1 ? "online" : "offline"
       begin
         TestMailer.status_change(website, new_status).deliver_now
-      rescue StandardError => e
-        Rails.logger.error "Failed to send status change email: #{e.message}"
       end
     end
   end
