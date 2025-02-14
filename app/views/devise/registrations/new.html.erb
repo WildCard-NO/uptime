@@ -1,0 +1,35 @@
+<div class="w-full">
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-100">
+    <div class="flex flex-col items-center p-16 gap-6 w-[601px] bg-white rounded-[24px]">
+      <h2 class="text-2xl font-semibold text-center mb-6">Sign up</h2>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="mb-4 ">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "block w-[473px] h-[56px] pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder: "Your Email" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+          <% if @minimum_password_length %>
+          <em class="text-sm text-gray-500">(Minimum <%= @minimum_password_length %> characters)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "block w-[473px] h-[56px] pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder: "Password" %>
+        </div>
+
+        <div class="mb-6 ">
+          <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-[473px] h-[56px] pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder: "Password Confirmation" %>
+        </div>
+
+        <div class="flex items-center justify-between bg-[#13214F] rounded-lg text-white font-medium">
+          <%= f.submit "Sign up", class: "text-white w-[473px] h-[56px] py-2 px-4 bg-[#13214F] rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links", class: "mt-4 text-center" %>
+    </div>
+  </div>
+</div>

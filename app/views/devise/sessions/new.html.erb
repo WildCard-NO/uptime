@@ -1,0 +1,40 @@
+<div class="w-full">
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-100">
+    <div class="flex flex-col items-center p-16 gap-6 w-[601px] bg-white rounded-[24px]">
+      <h1 class="text-4xl font-bold text-center mb-6">Sign In</h1>
+
+    <%= turbo_frame_tag "login_errors" do %>
+      <% if flash[:alert].present? %>
+        <div class="w-[273px] md:w-[473px] mt-4 p-4 border border-red-500 rounded-md bg-red-100 text-red-700">
+          <h2 class="font-bold">There were some errors:</h2>
+          <ul>
+            <li><%= flash[:alert] %></li>
+          </ul>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"block w-[273px] md:w-[473px] h-[56px] pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder: "Your Email" %>
+      </div>
+
+      <div class="field">
+        <%= f.password_field :password, autocomplete: "current-password", class:"mb-6 block w-[273px] md:w-[473px] h-[56px] pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder: "Password" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Log in", class:"w-[273px] md:w-[473px] h-[56px] py-2 px-4 bg-[#13214F] text-white font-medium rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
