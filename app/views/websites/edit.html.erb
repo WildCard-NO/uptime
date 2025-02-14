@@ -1,10 +1,9 @@
 <% content_for :title, "Editing website" %>
+<div class="flex justify-center items-center min-h-screen">
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing website</h1>
+  <div class="p-6 md:w-2/3">
+    <h1 class="font-bold text-4xl text-center mb-4">Editing website</h1>
 
-  <%= render "form", website: @website %>
-
-  <%= link_to "Show this website", @website, class: "btn btn--secondary" %>
-  <%= link_to "Back to websites", websites_path, class: "btn btn--secondary" %>
+    <%= render "form", website: @website %>
+  </div>
 </div>
