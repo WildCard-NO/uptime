@@ -71,3 +71,4 @@ gem 'sidekiq'
 gem 'httparty'
 
 gem "css-zero", "~> 1.0"
+gem 'postmark-rails'

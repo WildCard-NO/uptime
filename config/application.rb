@@ -17,7 +17,8 @@ module Uptime
     config.autoload_lib(ignore: %w(assets tasks))
     config.active_job.queue_adapter = :sidekiq
 
-
+    config.action_mailer.delivery_method = :postmark
+    config.action_mailer.postmark_settings = { :api_token => ENV["POSTMARK_API"] }
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

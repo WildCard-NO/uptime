@@ -26,10 +26,11 @@ class WebsitesController < ApplicationController
   # POST /websites or /websites.json
   def create
     @website = current_user.websites.new(website_params)
-
     respond_to do |format|
       if @website.save
-        start_pinging(@website)  # Start pinging in the background after creation
+        start_pinging(@website)
+        
+        
         format.html { redirect_to @website, notice: "Website was successfully created." }
         format.json { render :show, status: :created, location: @website }
       else
