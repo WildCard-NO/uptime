@@ -1,15 +1,15 @@
 <turbo-frame id="<%= dom_id(website) %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Title:</strong>
+    <strong class="block font-bold mb-1">Title:</strong>
     <%= website.title %>
   </p>
   <p class="my-5">
-    <strong class="block font-medium mb-1">Body:</strong>
+    <strong class="block font-bold mb-1">Website URL:</strong>
     <%= website.body %>
   </p>
   <div class="website-item">
     <p class="my-5">
-      <strong class="block font-medium mb-1">Status:</strong>
+      <strong class="block font-bold mb-1">Status:</strong>
       <% if website.status == 'online' %>
         <span class="text-green-500">Online</span>
       <% else %>
