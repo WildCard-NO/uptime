@@ -6,9 +6,20 @@ Rails.application.routes.draw do
   end
   devise_for :users, controllers: {
     registrations: "users/registrations",
+    sessions: "users/sessions"
   }
-  root to: redirect("/websites")
-  get 'pages/index'
+
+  authenticated :user do
+    root to: redirect("/websites"), as: :authenticated_root
+  end
+  # get 'pages/index'
+
+  devise_scope :user do
+    unauthenticated do
+      root to: "users/sessions#new", as: :unauthenticated_root
+    end
+  end
+
   authenticate :user do
     mount Sidekiq::Web => '/sidekiq'
   end
